@@ -64,8 +64,8 @@ namespace Shop.Application.Products.Create
             {
                 spesifications.Add(new ProductSpecification(specification.Key, specification.Value));
             });
-
             product.SetSpecification(spesifications);
+
             await _repository.Save();
             return OperationResult.Success();
         }

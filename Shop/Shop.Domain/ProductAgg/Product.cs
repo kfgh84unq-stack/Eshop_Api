@@ -20,8 +20,10 @@ namespace Shop.Domain.ProductAgg
         public Product(string title, string imageName, string description, long categoryId,
             long subCategoryId, long secandarySubCategoryId, string slug, SeoData seoData, IProductDomainService domainService)
         {
+            NullOrEmptyDomainDataException.CheckString(imageName, nameof(imageName));
+
             slug = slug?.ToSlug();
-            Guard(title, imageName, description, slug, domainService);
+            Guard(title, description, slug, domainService);
             Title = title;
             ImageName = imageName;
             Description = description;
@@ -42,18 +44,22 @@ namespace Shop.Domain.ProductAgg
         public SeoData SeoData { get; private set; }
         public List<ProductImage> Images { get; private set; }
         public List<ProductSpecification> Specifications { get; private set; }
-        public void Edit(string title, string imageName, string description, long categoryId,
-           long subCategoryId, long secandarySubCategoryId, string slug, IProductDomainService domainService)
+        public void Edit(string title, string description, long categoryId,
+           long subCategoryId, long secandarySubCategoryId, string slug, SeoData seoData, IProductDomainService domainService)
         {
             slug = slug?.ToSlug();
-            Guard(title, imageName, description, slug, domainService);
+            Guard(title, description, slug, domainService);
             Title = title;
-            ImageName = imageName;
             Description = description;
             CategoryId = categoryId;
             SubCategoryId = subCategoryId;
             SecandarySubCategoryId = secandarySubCategoryId;
             Slug = slug;
+        }
+        public void SetProductImage(string imageName)
+        {
+            NullOrEmptyDomainDataException.CheckString(imageName, nameof(imageName));
+            ImageName = imageName;
         }
         public void AddImage(ProductImage image)
         {
@@ -72,10 +78,9 @@ namespace Shop.Domain.ProductAgg
             Specifications.ForEach(s=>s.ProductId = Id);
             Specifications =specifications;
         }
-        public void Guard(string title, string imageName, string description, string slug, IProductDomainService domainService)
+        public void Guard(string title, string description, string slug, IProductDomainService domainService)
         {
             NullOrEmptyDomainDataException.CheckString(title,nameof(title));
-            NullOrEmptyDomainDataException.CheckString(imageName, nameof(imageName));
             NullOrEmptyDomainDataException.CheckString(description, nameof(description));
             NullOrEmptyDomainDataException.CheckString(slug, nameof(slug));
             
