@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Common/">
+    <Project Path="Common/Common.Application/Common.Application.csproj" Id="da3bb0ae-efda-4407-aae4-7053a70a06d5" />
+    <Project Path="Common/Common.Domain/Common.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Shop/">
+    <Project Path="Shop/Shop.Application/Shop.Application.csproj" />
+    <Project Path="Shop/Shop.Domain/Shop.Domain.csproj" />
+    <Project Path="Shop/Shop.Infrastructur/Shop.Infrastructur.csproj" />
+    <Project Path="Shop/Shop.Presentation.Facade/Shop.Presentation.Facade.csproj" />
+    <Project Path="Shop/Shop.Query/Shop.Query.csproj" />
+  </Folder>
+</Solution>

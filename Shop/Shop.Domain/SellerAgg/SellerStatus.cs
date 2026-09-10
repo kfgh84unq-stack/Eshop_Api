@@ -1,0 +1,10 @@
+﻿namespace Shop.Domain.SellerAgg
+{
+    public enum SellerStatus
+    {
+        New,
+        Accepted,
+        InAtive,
+        Rejected
+    }
+}
