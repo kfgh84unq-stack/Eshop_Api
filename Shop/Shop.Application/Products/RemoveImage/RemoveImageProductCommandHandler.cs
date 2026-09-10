@@ -7,8 +7,8 @@ namespace Shop.Application.Products.RemoveImage
 {
     internal class RemoveImageProductCommandHandler : IBaseCommandHandler<RemoveImageProductCommand>
     {
-        IProductRepository _repository;
-        IFileService _fileService;
+        private readonly IProductRepository _repository;
+        private readonly IFileService _fileService;
 
         public RemoveImageProductCommandHandler(IProductRepository repository, IFileService fileService)
         {

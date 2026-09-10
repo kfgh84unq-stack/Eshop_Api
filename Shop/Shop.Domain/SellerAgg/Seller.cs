@@ -1,5 +1,6 @@
 ﻿using Common.Domain;
 using Common.Domain.Exceptions;
+using Shop.Domain.SellerAgg.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +9,14 @@ namespace Shop.Domain.SellerAgg
 {
     public class Seller:AggregateRoot
     {
-        public Seller(long userId, string shopName, string nationalCode)
+        public Seller(long userId, string shopName, string nationalCode, ISellerDomainService domainService)
         {
             UserId = userId;
             ShopName = shopName;
             NationalCode = nationalCode;
+
+            if (domainService.CheckOutInfo(this) == false)
+                throw new InvalidDomainDataException("اطلاعات نامعتبر است.");
         }
 
         private Seller()
@@ -31,9 +35,13 @@ namespace Shop.Domain.SellerAgg
             Status = status;
             LastUpdate = DateTime.Now;
         }
-        public void Edit (string shopName,string nationalCode)
+        public void Edit (string shopName,string nationalCode, ISellerDomainService domainService)
         {
             Guard(shopName, nationalCode);
+
+            if (NationalCode != nationalCode)
+                if (domainService.IsNationalCodeExistInDataBase(nationalCode))
+                    throw new InvalidDomainDataException("کد ملی متعلق به فرد دیگری است.");
 
             ShopName = shopName;
             NationalCode = nationalCode;

@@ -8,8 +8,8 @@ namespace Shop.Application.Products.AddImage
 {
     internal class AddImageProductCammandHandler : IBaseCommandHandler<AddImageProductCammand>
     {
-        IProductRepository _repository;
-        IFileService _fileService;
+        private readonly IProductRepository _repository;
+       private readonly IFileService _fileService;
 
         public AddImageProductCammandHandler(IProductRepository repository, IFileService fileService)
         {

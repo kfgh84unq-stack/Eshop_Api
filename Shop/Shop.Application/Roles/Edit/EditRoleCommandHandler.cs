@@ -6,7 +6,7 @@ namespace Shop.Application.Roles.Edit
 {
     internal class EditRoleCommandHandler : IBaseCommandHandler<EditRoleCommand>
     {
-        IRoleRepository _repository;
+        private readonly IRoleRepository _repository;
 
         public EditRoleCommandHandler(IRoleRepository repository)
         {
