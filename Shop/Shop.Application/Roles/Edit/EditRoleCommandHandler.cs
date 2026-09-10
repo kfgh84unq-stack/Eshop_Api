@@ -1,0 +1,36 @@
+﻿using Common.Application;
+using Shop.Domain.RoleAgg;
+using Shop.Domain.RoleAgg.Repository;
+
+namespace Shop.Application.Roles.Edit
+{
+    internal class EditRoleCommandHandler : IBaseCommandHandler<EditRoleCommand>
+    {
+        IRoleRepository _repository;
+
+        public EditRoleCommandHandler(IRoleRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<OperationResult> Handle(EditRoleCommand request, CancellationToken cancellationToken)
+        {
+            var role = await _repository.GetTracking(request.RoleId);
+            if (role == null)
+                return OperationResult.NotFound();
+
+            var rolePermissions = new List<RolePermission>();
+            request.Permissions.ForEach(f =>
+            {
+                rolePermissions.Add(new RolePermission(f));
+            });
+
+            role.Edit(request.Title);
+            role.SetPermissions(rolePermissions);
+
+            await _repository.Save();
+
+            return OperationResult.Success();
+        }
+    }
+}

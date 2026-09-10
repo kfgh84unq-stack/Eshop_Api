@@ -31,9 +31,9 @@ namespace Shop.Domain.RoleAgg
         public string Title { get; private set; }
         public List<RolePermission> RolePermissions { get; private set; }
 
-        public void AddRolePermission(RolePermission permission)
+        public void SetPermissions(List<RolePermission> permissions)
         {
-            RolePermissions.Add(permission);
+            RolePermissions=permissions;
         }
         public void Edit(string title)
         {
