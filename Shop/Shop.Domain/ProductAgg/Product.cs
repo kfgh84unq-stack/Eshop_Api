@@ -66,19 +66,20 @@ namespace Shop.Domain.ProductAgg
             image.ProductId = Id;
             Images.Add(image); 
         }
-        public void RemoveImage(long id)
+        public string RemoveImage(long id)
         {
-            var currentImage=Images.FirstOrDefault(x => x.Id == id);
-            if (currentImage == null)
-                return;
-            Images.Remove(currentImage);
+            var image=Images.FirstOrDefault(x => x.Id == id);
+            if (image == null)
+                throw new NullOrEmptyDomainDataException("عکس یافت نشد.")
+            Images.Remove(image);
+            return image.ImageName;
         }
         public void SetSpecification(List<ProductSpecification> specifications)
         {
             Specifications.ForEach(s=>s.ProductId = Id);
             Specifications =specifications;
         }
-        public void Guard(string title, string description, string slug, IProductDomainService domainService)
+        private void Guard(string title, string description, string slug, IProductDomainService domainService)
         {
             NullOrEmptyDomainDataException.CheckString(title,nameof(title));
             NullOrEmptyDomainDataException.CheckString(description, nameof(description));
