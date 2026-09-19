@@ -8,6 +8,8 @@ namespace Shop.Domain.RoleAgg
 {
     public class Role:AggregateRoot
     {
+        public string Title { get; private set; }
+        public List<RolePermission> RolePermissions { get; private set; }
         private Role()
         {
             
@@ -28,8 +30,7 @@ namespace Shop.Domain.RoleAgg
             RolePermissions = rolePermissions;
         }
 
-        public string Title { get; private set; }
-        public List<RolePermission> RolePermissions { get; private set; }
+    
 
         public void SetPermissions(List<RolePermission> permissions)
         {

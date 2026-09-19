@@ -1,11 +1,12 @@
 ﻿using Common.Domain;
 using Common.Domain.Exceptions;
+using Common.Domain.ValueObjects;
 
 namespace Shop.Domain.UserAgg
 {
     public class UserAddress : BaseEntity
     {
-        public UserAddress( string name, string family, string phoneNumber, string city, string shire,
+        public UserAddress( string name, string family, PhoneNamber phoneNumber, string city, string shire,
             string postalCode, string postalAddress, string nationalCode)
         {
             Guard(name, family, phoneNumber, city, shire, postalCode, postalAddress, nationalCode);
@@ -24,14 +25,14 @@ namespace Shop.Domain.UserAgg
         public long UserId { get; internal set; }
         public string Name { get;private set; }
         public string Family { get; private set; }
-        public string PhoneNumber { get; private set; }
+        public PhoneNamber PhoneNumber { get; private set; }
         public string City { get; private set; }
         public string Shire { get; private set; }
         public string PostalCode { get; private set; }
         public string PostalAddress { get; private set; }
         public string NationalCode { get; private set; }
         public bool ActiveAddress { get; private set; }
-        public void Edit(string name, string family, string phoneNumber, string city, string shire,
+        public void Edit(string name, string family, PhoneNamber phoneNumber, string city, string shire,
            string postalCode, string postalAddress, string nationalCode)
         {
             Guard(name, family, phoneNumber, city, shire, postalCode, postalAddress, nationalCode);
@@ -50,12 +51,13 @@ namespace Shop.Domain.UserAgg
         {
             ActiveAddress = true;
         }
-        public void Guard( string name, string family, string phoneNumber, string city, string shire,
+        private void Guard( string name, string family, PhoneNamber phoneNumber, string city, string shire,
            string postalCode, string postalAddress, string nationalCode)
         {
+            if (phoneNumber == null)
+                throw new InvalidDomainDataException();
             NullOrEmptyDomainDataException.CheckString(name, nameof(name));
             NullOrEmptyDomainDataException.CheckString(family, nameof(family));
-            NullOrEmptyDomainDataException.CheckString(phoneNumber, nameof(phoneNumber));
             NullOrEmptyDomainDataException.CheckString(city, nameof(city));
             NullOrEmptyDomainDataException.CheckString(shire, nameof(shire));
             NullOrEmptyDomainDataException.CheckString(postalCode, nameof(postalCode));

@@ -20,6 +20,7 @@ namespace Shop.Application.Sellers.Edit
                 return OperationResult.NotFound();
 
             seller.Edit(request.ShopName, request.NationalCode, _domainService);
+            seller.ChangeStatus(request.Status);
             await _repository.Save();
             return OperationResult.Success();
         }

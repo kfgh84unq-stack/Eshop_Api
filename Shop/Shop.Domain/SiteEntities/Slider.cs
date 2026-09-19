@@ -1,11 +1,12 @@
-﻿using Common.Domain.Exceptions;
+﻿using Common.Domain;
+using Common.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Shop.Domain.SiteEntities
 {
-    public class Slider
+    public class Slider : AggregateRoot
     {
         public Slider(string title, string link, string imageName)
         {

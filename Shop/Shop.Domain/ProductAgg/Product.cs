@@ -70,7 +70,7 @@ namespace Shop.Domain.ProductAgg
         {
             var image=Images.FirstOrDefault(x => x.Id == id);
             if (image == null)
-                throw new NullOrEmptyDomainDataException("عکس یافت نشد.")
+                throw new NullOrEmptyDomainDataException("عکس یافت نشد.");
             Images.Remove(image);
             return image.ImageName;
         }

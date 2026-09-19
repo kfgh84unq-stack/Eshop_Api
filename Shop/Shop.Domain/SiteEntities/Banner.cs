@@ -1,11 +1,12 @@
-﻿using Common.Domain.Exceptions;
+﻿using Common.Domain;
+using Common.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Shop.Domain.SiteEntities
 {
-    public class Banner
+    public class Banner : AggregateRoot
     {
         public string Link { get; private set; }
         public string ImageName{ get; private set; }

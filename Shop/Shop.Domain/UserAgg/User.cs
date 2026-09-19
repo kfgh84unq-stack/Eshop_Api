@@ -2,9 +2,6 @@
 using Common.Domain.Exceptions;
 using Shop.Domain.UserAgg.Enums;
 using Shop.Domain.UserAgg.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace Shop.Domain.UserAgg
@@ -17,17 +14,19 @@ namespace Shop.Domain.UserAgg
             Guard(phoneNamber, email, domainUser);
             Name = name;
             Family = family;
-            PhoneNamber = phoneNamber;
+            PhoneNumber = phoneNamber;
             Email = email;
             Password = password;
             Gender = gender;
+            Avatar = "avatar.png";
         }
 
         public string Name { get;private set; }
         public string Family { get; private set; }
-        public string PhoneNamber { get; private set; }
+        public string PhoneNumber { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
+        public string Avatar { get; private set; }
         public Gender Gender { get; private set; }
         public List<UserAddress> Addresses { get; private set; }
         public List<UserRole> Roles { get; private set; }
@@ -38,14 +37,19 @@ namespace Shop.Domain.UserAgg
             Guard(phoneNamber, email, domainUser);
             Name = name;
             Family = family;
-            PhoneNamber = phoneNamber;
+            PhoneNumber = phoneNamber;
             Email = email;
-            Gender = gender;
         }
-        public static User RegisterUser(string phoneNamber, string email, string password
+        public void SetAvatar(string avatar)
+        {
+            if (string.IsNullOrEmpty(avatar))
+                avatar = "avatar.png";
+            Avatar = avatar;
+        }
+        public static User RegisterUser(string phoneNamber, string password
             , IDomainUserService domainUser)
         {
-            return new User("","",phoneNamber, email, password, Gender.None, domainUser);
+            return new User("","",phoneNamber,null, password, Gender.None, domainUser);
         }
       
         public void AddAddress(UserAddress address)
@@ -53,13 +57,14 @@ namespace Shop.Domain.UserAgg
             address.UserId = Id;
             Addresses.Add(address);
         }
-        public void EditAddress(UserAddress address)
+        public void EditAddress(UserAddress address, long addressId)
         {
-            var oldAddress = Addresses.FirstOrDefault(f => f.Id == address.Id);
+            var oldAddress = Addresses.FirstOrDefault(f => f.Id == addressId);
             if (oldAddress == null)
                 throw new NullOrEmptyDomainDataException("Address not found.");
-            Addresses.Remove(oldAddress);
-            Addresses.Add(address );
+
+            oldAddress.Edit(address.Name, address.Family, address.PhoneNumber, address.City, address.Shire,
+                address.PostalCode, address.PostalAddress, address.NationalCode);
         }
         public void DeleteAddress(long addressId)
         {
@@ -79,7 +84,7 @@ namespace Shop.Domain.UserAgg
            Roles.Clear();
            Roles.AddRange(roles);
         }
-        public void Guard(string phoneNumber,string email,IDomainUserService domainUser)
+        private void Guard(string phoneNumber,string email,IDomainUserService domainUser)
         {
             NullOrEmptyDomainDataException.CheckString(phoneNumber, nameof(phoneNumber));
             NullOrEmptyDomainDataException.CheckString(email, nameof(email));
@@ -91,7 +96,7 @@ namespace Shop.Domain.UserAgg
                 throw new InvalidDomainDataException("ایمیل نامعتبر است");
             }
 
-            if (phoneNumber != PhoneNamber)
+            if (phoneNumber != PhoneNumber)
                 if (domainUser.IsPhoneNamberExist(phoneNumber))
                     throw new InvalidDomainDataException("شماره تلفن تکراری است.");
 
